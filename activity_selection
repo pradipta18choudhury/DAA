@@ -1,0 +1,56 @@
+#include <stdio.h>
+/******
+Write a C Program that read the activities having start and finish time. Define a
+user defined procedure that will identify the maximum mutually compatible
+activities. Display the activities along with their starting and finishing time as
+well as mutually compatible set of activities as output.
+***/
+
+typedef struct
+{
+	int start,finish;
+}activity;
+
+int sort_activity(activity s1,activity s2)
+{
+	return (s1.finish<s2.finish);
+}
+
+int cmpfunc (const void * a, const void * b) {
+   return ( *(int*)a - *(int*)b );
+}
+
+
+void print(activity arr[],int n)
+{
+	qsort(arr,arr+n,sort_activity);
+	int i=0;int count=1;
+	for(int j=1;j<n;j++)
+	{
+		if(arr[j].start>=arr[i].finish)
+		{
+			count++;
+			//printf("%d\t",arr[j].start);
+			//printf("%d\t",arr[i].finish);
+			i=j;
+		}
+	}
+	printf("%d\t",count);
+}
+
+int main()
+{
+	int n;
+	printf("\n enter number of activity:");
+	scanf("%d",&n);
+	//activity arr[7]={{10,2},{5,3},{15,5},{7,7},{6,1},{18,4},{3,1}};
+	activity arr[n];
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i].start);
+		scanf("%d",&arr[i].finish);
+	}
+	
+	print(arr,n);
+	return 0;
+}
