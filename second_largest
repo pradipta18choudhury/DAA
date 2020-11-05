@@ -1,0 +1,34 @@
+//program to find second largest element in a array
+#include <stdio.h>
+int main()
+{
+
+	int n;
+	printf("\n enter number of array elements:");
+	scanf("%d",&n);
+
+	int arr[n];
+	printf("\n enter array elements:");
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+
+	printf("\n the second largest element in array is:");
+	int large=arr[0];
+	for(int i=1;i<n;i++)
+	{
+		if(arr[i]>large)
+			large=arr[i];
+	}
+	//find second lARGE
+	int sec_large=0;
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]>sec_large && arr[i]<large)
+			sec_large=arr[i];
+	}
+
+	printf("%d",sec_large);
+	return 0;
+}
