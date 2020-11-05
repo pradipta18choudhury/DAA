@@ -1,0 +1,48 @@
+#include <stdio.h>
+/*****
+Consider two list of elements where 1st list of elements is
+sorted in ascending order and the 2nd list of elements is
+sorted in descending order. Design a C program having
+complexity O(n) to create a ascending order list consisting
+of the elements of both the lists. Display the new list as output
+*******/
+void summation(int arr[],int brr[],int n1,int n2,int ans[])
+{
+	int i=0,j=n2-1,k=0;
+	while(i<n1 && j>=0)
+	{
+		if(arr[i]<brr[j])
+		{
+			ans[k]=arr[i];
+			i++;k++;
+		}
+		else
+		{
+			ans[k]=brr[j];
+			k++;j--;
+		}
+	}
+	while(i<n1)
+		ans[k++]=arr[i++];
+	while(j>0)
+		ans[k++]=arr[j--];
+}
+
+
+int main() 
+{ 
+    int arr1[] = {1,7,9,15}; 
+    int n1 = sizeof(arr1) / sizeof(arr1[0]); 
+  
+    int arr2[] = {5,4,3,2}; 
+    int n2 = sizeof(arr2) / sizeof(arr2[0]); 
+  
+    int arr3[n1+n2]; 
+    summation(arr1, arr2, n1, n2, arr3); 
+  
+    printf("\n after merging...");
+    for (int i=0; i < n1+n2; i++) 
+        printf("%d\t",arr3[i]);
+  
+    return 0; 
+} 
