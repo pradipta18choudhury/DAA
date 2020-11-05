@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <time.h>
+//insertion sort program where finding out time complexity of random elements.
+
+void InsertionSort(int arr[], int n){
+	//ascending order
+    int i,j,current;
+    for(i=1;i<n;i++)
+    {
+        current=arr[i];
+        for(j=i-1;j>=0;j--)
+        {
+            if(current<arr[j])
+            {
+                arr[j+1]=arr[j];
+            }
+            else
+                break;
+        }
+        arr[j+1]=current;
+    }
+}
+
+//descending order
+void des_insertionSort(int arr[],int n)
+{
+	int key,i,j;
+	for (j = 1; j < n; j++) 
+	{
+    	key = arr[ j ];
+    	for(i = j - 1; (i >= 0) && (arr[ i ] < key); i--) 
+    	{
+        	arr[ i+1 ] = arr[ i ];
+    	}
+    	arr[ i+1 ] = key; 
+    }
+}
+
+//printing elements
+void print(int arr[],int n)
+{
+	for(int i=0;i<n;i++)
+		printf("\t%d",arr[i]);
+}
+
+int main()
+{
+	//int n;
+	//printf("\n enter number of array elements:");
+	//scanf("%d",&n);
+
+	clock_t s,e;
+	float t;
+	/**
+	int arr[n];
+	printf("\n enter array elements:");
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+
+	s=clock();
+	printf("\n insertion sort:");
+	InsertionSort(arr,n);
+
+	print(arr,n);
+
+	**/
+	//doing random calculations
+	int input[30000];
+	srand(time(0));
+
+	for(int i=0;i<30000;i++)
+	{
+		input[i]=1+rand()%30000;
+	}
+	des_insertionSort(input,30000);
+
+	printf("\n time calculation :");
+	
+    //s=clock();
+    e=clock();
+    t=((double)(e-s));
+    printf("%f",t);
+
+	return 0;
+
+}
