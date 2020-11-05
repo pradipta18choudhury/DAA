@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+/****
+Write a C program to implement Binary Search using divide
+and conquer method. Also implement the Linear Search for
+searching an element in the same program. Compare the
+time required for searching an element using binary and
+linear search on input size ranging from 5000 to 50000 with
+a step of 5000. The input and the searching element should
+be generated randomly. Plot a graph to illustrate the
+comparision between both the searching approach
+****/
+
+int binary(int start,int end,int *arr,int k)
+{
+	while(start<=end)
+	{
+		int mid=start+(end-start)/2;
+		if(arr[mid]==k)
+			return mid;
+		if(arr[mid]>k)
+			return binary(start,mid-1,arr,k);
+		if(arr[mid]<k)
+			return binary(mid+1,end,arr,k);
+	}
+	return -1;
+}
+
+int linear(int *arr,int n,int k)
+{
+	int ans;
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]==k)
+		{
+			ans=i; 
+			break;
+		}
+	}
+	return ans;
+}
+
+int main()
+{
+	srand(time(0));
+	double rtimeB,rtimeL;
+	clock_t startB,endB,startL,endL,timeL,timeB;
+	int n;
+	scanf("%d",&n);
+	int k;
+	scanf("%d",&k);
+
+	int a[n];
+	for(int i=0;i<n;i++)
+	{
+		a[i]=rand()%n;
+	}
+	startB=clock();
+	binary(0,n,a,k);
+	endB=clock();
+	startL=clock();
+	linear(a,n,k);
+	endL=clock();
+
+	timeB=abs(startB-endB);
+	timeL=abs(startL-endL);
+
+	rtimeB=((double)timeB)/CLOCKS_PER_SEC;
+	rtimeL=((double)timeL)/CLOCKS_PER_SEC;
+
+	printf("time taken binary %f sec\n",rtimeB);
+	printf("time taken linear %f sec\n",rtimeL);
+	return 0;
+}
