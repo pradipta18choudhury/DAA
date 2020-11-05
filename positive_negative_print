@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+//program to print positive and negative elements in a array,first print negative then all posiyive ones at one go
+
+
+int main()
+{
+	int n,key=0,j;
+	printf("enter size of array");
+	scanf("%d",&n);
+	
+	int arr[n];
+	printf("enter array elements:");
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+	
+	int dp1[n];
+	int dp2[n];
+	for(int i=1;i<n;i++)
+	{
+		
+	  key=arr[i];
+	  j=i-1;
+	  while(j>=0 && arr[j]>0)
+	  {
+	  	arr[j+1]=arr[j];
+	  	j=j-1;
+	  }
+	  arr[j+1]=key;
+	}
+	for(int i=0;i<n;i++)
+	printf("%d ",arr[i]);
+	
+	//for(int i=0;i<n;i++)
+	//printf("%d ",dp2[i]);
+}
