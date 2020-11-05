@@ -1,0 +1,43 @@
+#include <stdio.h>
+//program for compute the gcd by euclidean approach and continuous integer devision approach
+void gcd_normal(int a,int b)
+{
+	int i,gcd,count=0;
+	for(i=1;i<=a && i<=b;i++)
+	{
+		if(a%i==0 && b%i==0)
+		{
+			gcd=i;
+			count++;
+		}
+	}
+	printf("\n the gcd of the numbers is: %d",gcd);
+	printf("\n frequency is: %d",count);
+}
+
+void euclidean(int n1,int n2)
+{
+	int t,count;
+	while(n2!=0)
+	{
+		t=n2;
+		n2=n1%n2;
+		n1=t;
+		count++;
+	}
+	printf("\n the gcd of the numbers is: %d",n1);
+	printf("\n frequency is: %d",count);
+}
+
+int main()
+{
+	int a,b;
+	printf("\n enter first number:");
+	scanf("%d",&a);
+	printf("\n enter second number:");
+	scanf("%d",&b);
+
+	gcd_normal(a,b);
+	euclidean(a,b);
+	return 0;
+}
