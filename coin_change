@@ -1,0 +1,54 @@
+/******
+Write a C Program to solve the problem of making changes for an
+amount given as integer with minimum number of coins in linear time.
+*****/
+
+#include <stdio.h>
+
+int countWaysToMakeChange(int denominations[], int numDenominations, int value){
+
+	int x,y;
+    int output[value+1][numDenominations+1];
+    for(int i=0;i<(numDenominations+1);i++)
+    	output[0][i]=1;
+    
+    for(int i=1;i<value+1;i++)
+    {
+        for(int j=0;j<numDenominations;j++)
+        {
+             x = (i-denominations[j] >= 0) ? output[i - denominations[j]][j] : 0; 
+  
+            // Count of solutions excluding S[j] 
+            y = (j >= 1) ? output[i][j - 1] : 0; 
+  
+            // total count 
+            output[i][j] = x + y; 
+        }
+    }
+    return output[value][numDenominations - 1];
+}
+
+int main()
+{
+
+	int numDenominations;
+	printf("enter total denominations:");
+	scanf("%d",&numDenominations);
+	
+	int denominations[numDenominations];
+    
+    printf("\n enter the values:");
+	for (int i = 0; i < numDenominations; i++)
+	{
+		scanf("%d",&denominations[i]);
+	}
+
+	int value;
+	printf("\n enter the value u want change:");
+	scanf("%d",&value);
+    
+    printf("\n the total no of ways in which change is possible:");
+	printf("%d",countWaysToMakeChange(denominations, numDenominations, value));
+
+	//delete[] denominations;
+}
