@@ -1,0 +1,163 @@
+/****
+Q1. Write a C program to implement the merge sort using divide and
+conquer approach. You need to create two user defined functions
+merge_asc() and merge_dsc() along with merge sort procedure. The
+merge_asc() and merge_dsc() will sort the array elements in ascending
+and descending order respectively. Display both the ascending and
+descending array as output.
+****/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void merge_asc(int arr[], int l, int m, int r) 
+{ 
+    int i, j, k; 
+    int n1 = m - l + 1; 
+    int n2 =  r - m; 
+  
+    
+    int L[n1], R[n2]; 
+  
+    
+    for (i = 0; i < n1; i++) 
+        L[i] = arr[l + i]; 
+    for (j = 0; j < n2; j++) 
+        R[j] = arr[m + 1+ j]; 
+  
+    
+    i = 0; 
+    j = 0; 
+    k = l; 
+    while (i < n1 && j < n2) 
+    { 
+        if (L[i] <= R[j]) 
+        { 
+            arr[k] = L[i]; 
+            i++; 
+        } 
+        else
+        { 
+            arr[k] = R[j]; 
+            j++; 
+        } 
+        k++; 
+    } 
+  
+    
+    while (i < n1) 
+    { 
+        arr[k] = L[i]; 
+        i++; 
+        k++; 
+    } 
+  
+   
+    while (j < n2) 
+    { 
+        arr[k] = R[j]; 
+        j++; 
+        k++; 
+    } 
+} 
+  
+  
+void merge_desc(int arr[],int l,int m,int r)
+{
+    int i, j, k; 
+    int n1 = m - l + 1; 
+    int n2 =  r - m; 
+  
+    
+    int L[n1], R[n2]; 
+  
+    
+    for (i = 0; i < n1; i++) 
+        L[i] = arr[l + i]; 
+    for (j = 0; j < n2; j++) 
+        R[j] = arr[m + 1+ j]; 
+  
+    
+    i = 0; 
+    j = 0; 
+    k = l; 
+    while (i < n1 && j < n2) 
+    { 
+        if (L[i] >= R[j]) 
+        { 
+            arr[k] = L[i]; 
+            i++; 
+        } 
+        else
+        { 
+            arr[k] = R[j]; 
+            j++; 
+        } 
+        k++; 
+    } 
+  
+    
+    while (i < n1) 
+    { 
+        arr[k] = L[i]; 
+        i++; 
+        k++; 
+    } 
+  
+   
+    while (j < n2) 
+    { 
+        arr[k] = R[j]; 
+        j++; 
+        k++; 
+    } 
+  
+}
+  
+  
+  
+  
+  
+
+void mergeSort(int arr[], int l, int r) 
+{ 
+    if (l < r) 
+    { 
+       
+        int m = l+(r-l)/2; 
+  
+        
+        mergeSort(arr, l, m); 
+        mergeSort(arr, m+1, r); 
+  
+        merge_desc(arr, l, m, r); 
+    } 
+} 
+//printing elements
+void print(int arr[],int n)
+{
+	for(int i=0;i<n;i++)
+		printf("\t%d",arr[i]);
+}
+
+int main()
+{
+	int n;
+	printf("\n enter number of array elements:");
+	scanf("%d",&n);
+    
+    int arr[n];
+    printf("\n enter array elements:");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+    mergeSort(arr,0,n-1);
+    print(arr,n);
+	
+	
+
+	return 0;
+
+}
