@@ -1,0 +1,68 @@
+/*****
+Write a C Program for sorting the given list of integers in descending
+order using heap sort. For implementing this, define user defined
+functions (UDF) for following modules.
+
+UDF for Min-Heapify
+UDF for Build-Min-Heap
+UDF for Heap Sort
+****/
+#include<stdio.h>
+int Min_Heapify(int array[], int num, int i)
+{
+	int smallest = i;
+  	int temp=0;
+    int l = 2 * i + 1;
+	int r = 2 * i + 2;
+    if (l < num && array[l] < array[smallest])
+    	smallest = l;
+    if (r < num && array[r] < array[smallest])
+        smallest = r;
+    if (smallest != i)
+	{
+        temp=array[i];
+        array[i]=array[smallest];
+        array[smallest]=temp;
+    	Min_Heapify(array, num, smallest);
+    }
+}
+void buildHeap(int array[],int num)
+{
+    int startIdx = (num / 2) - 1;
+    for (int i=startIdx;i>=0;i--)
+	{
+    	Min_Heapify(array, num, i);
+    }
+}
+int Heap_Sort(int array[],int num)
+{
+	int temp;
+  	for (int i = num/ 2 - 1; i >= 0; i--)
+       	Min_Heapify(array, num, i);
+  	for (int i = num - 1; i >= 0; i--)
+	{
+		temp=array[0];
+		array[0]=array[i];
+		array[i]=temp;
+        Min_Heapify(array, i, 0);
+	}
+}
+int main()
+{
+	int num;
+	printf("Enter number of elements : ");
+	scanf("%d",&num);
+	int array[num];
+	printf("Enter %d elements :\n",num);
+    for(int i=0;i<num;i++)
+    {
+    	scanf("%d",&array[i]);
+	}
+    Heap_Sort(array,num);
+    printf("Sorted array is \n");
+    for(int i=0;i<num;i++)
+	{
+    	printf("%d\n",array[i]);
+    }
+    return 0;
+}
