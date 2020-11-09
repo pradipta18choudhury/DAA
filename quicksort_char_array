@@ -1,0 +1,43 @@
+/**
+Write a C Program to apply quicksort to sort the list of upper case
+characters (with repititions) in the alphabetic order provided in a
+character array as input. Display the sorted character array as output and
+the elements whose position is unchanged in the sorted list.
+**/
+
+// C++ program to sort a string of characters 
+#include <stdio.h>
+
+const int MAX_CHAR = 26; 
+
+// function to print string in sorted order 
+void sortString(char str[]) 
+{ 
+	// Hash array to keep count of characters. 
+	// Initially count of all charters is 
+	// initialized to zero. 
+	int charCount[26] = {0}; 
+	
+	// Traverse string and increment 
+	// count of characters 
+	for (int i=0; i<26; i++) 
+
+		// 'a'-'a' will be 0, 'b'-'a' will be 1, 
+		// so for location of character in count 
+		// array we wil do str[i]-'a'. 
+		charCount[str[i]-'A']++;	 
+	
+	// Traverse the hash array and print 
+	// characters 
+	for (int i=0;i<MAX_CHAR;i++) 
+		for (int j=0;j<charCount[i];j++) 
+			printf("%c",(char)('A'+i)); 
+} 
+
+// Driver program to test above function 
+int main() 
+{ 
+	char s[] = "GEEKSFORGEEKS";	 
+	sortString(s);	 
+	return 0; 
+} 
