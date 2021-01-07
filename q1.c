@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <limits.h>
+
+/****
+Write a C Program for representing a given weighted directed graph using
+adjacency matrix representation. You are required to provide the following
+information as output. 
+a. Display the adjacency matrix as output. 
+b. Display the edges whose weight is larger than the mean weight. 
+c. Display all the paths between any two given vertex with their weight sum.
+****/
+
+
+#include <stdio.h>
+#define V 4
+
+int sum = 0;
+int count = 0;
+void init(int arr[][V]) {
+    for (int i = 0; i < V; i++){
+        for (int j = 0; j < V; j++){
+            arr[i][j] = 0;
+        }
+    }
+}
+
+void addEdge(int arr[][V], int i, int j,int w) {
+  arr[i][j] = w;
+}
+
+void printM(int arr[][V]) {
+  int i, j;
+  for (i = 0; i < V; i++) {
+    printf("%d: ", i);
+    for (j = 0; j < V; j++) {
+      sum += arr[i][j];
+      if(arr[i][j] > 0){
+        count++;
+      }
+      printf("%d ", arr[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+int main() {
+  int adjMatrix[V][V];
+  init(adjMatrix);
+  addEdge(adjMatrix,0,1,2);
+  addEdge(adjMatrix,0,2,4);
+  addEdge(adjMatrix,1,2,2);
+  addEdge(adjMatrix,1,2,2);
+  addEdge(adjMatrix,2,3,6);
+  printM(adjMatrix);
+  sum = sum/count;
+  printf("\n Mean - > %d\n",sum);
+  printf("\n edges weight greater than mean weight:\n");
+  for(int i=0;i<V;i++){
+    for(int j=0;j<V;j++){
+      if(adjMatrix[i][j] >= sum){
+        printf("\n%d -> %d",i,j);
+      }
+    }
+  }
+  /**
+  for(int i=0;i<V;i++){
+    for(int j=0;j<V;j++){
+      if()
+    }
+  }
+  
+**/
+  return 0;
+}
