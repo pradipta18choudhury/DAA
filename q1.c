@@ -1,74 +1,65 @@
-#include <stdio.h>
-#include <limits.h>
-
 /****
-Write a C Program for representing a given weighted directed graph using
-adjacency matrix representation. You are required to provide the following
-information as output. 
-a. Display the adjacency matrix as output. 
-b. Display the edges whose weight is larger than the mean weight. 
-c. Display all the paths between any two given vertex with their weight sum.
+Write a C Program that reads two sequence of characters or two strings as
+input and find the longest common subsequence among two strings as output
+using Dynamic Programming.The followings things must come as output.
 ****/
 
-
 #include <stdio.h>
-#define V 4
+#include <limits.h>
+#include <string.h>
 
-int sum = 0;
-int count = 0;
-void init(int arr[][V]) {
-    for (int i = 0; i < V; i++){
-        for (int j = 0; j < V; j++){
-            arr[i][j] = 0;
-        }
-    }
+int max(int a,int b)
+{
+	return (a>b);
 }
 
-void addEdge(int arr[][V], int i, int j,int w) {
-  arr[i][j] = w;
+int helper(char *s1,char *s2,int m,int n,int dp[m+1][n+1])
+{
+	int ans=0;
+	if(m==0 || n==0)
+		return 0;
+
+	if(dp[m][n]>-1)
+		return dp[m][n];
+
+	if(s1[0]==s2[0])
+		return 1+helper(s1+1,s2+1,m-1,n-1,dp);
+
+	else
+	{
+		int option1=helper(s1,s2+1,m,n-1,dp);
+		int option2=helper(s1+1,s2,m-1,n,dp);
+		ans=max(option1,option2);
+	}
+
+	dp[m][n]=ans;
+	return ans;
+
 }
 
-void printM(int arr[][V]) {
-  int i, j;
-  for (i = 0; i < V; i++) {
-    printf("%d: ", i);
-    for (j = 0; j < V; j++) {
-      sum += arr[i][j];
-      if(arr[i][j] > 0){
-        count++;
-      }
-      printf("%d ", arr[i][j]);
-    }
-    printf("\n");
-  }
+int lcs(char *arr,char *brr)
+{
+	int ans=0;
+	int m=strlen(arr);
+	int n=strlen(brr);
+
+	int dp[m+1][n+1];
+	for(int i=0;i<m+1;i++)
+	{
+		for(int j=0;j<n+1;j++)
+			dp[i][j]=-1;
+	}
+
+	ans=helper(arr,brr,m,n,dp);
+
+	return ans;
 }
 
-int main() {
-  int adjMatrix[V][V];
-  init(adjMatrix);
-  addEdge(adjMatrix,0,1,2);
-  addEdge(adjMatrix,0,2,4);
-  addEdge(adjMatrix,1,2,2);
-  addEdge(adjMatrix,1,2,2);
-  addEdge(adjMatrix,2,3,6);
-  printM(adjMatrix);
-  sum = sum/count;
-  printf("\n Mean - > %d\n",sum);
-  printf("\n edges weight greater than mean weight:\n");
-  for(int i=0;i<V;i++){
-    for(int j=0;j<V;j++){
-      if(adjMatrix[i][j] >= sum){
-        printf("\n%d -> %d",i,j);
-      }
-    }
-  }
-  /**
-  for(int i=0;i<V;i++){
-    for(int j=0;j<V;j++){
-      if()
-    }
-  }
-  
-**/
-  return 0;
+int main()
+{
+	char arr[]="ABA";
+	char brr[]="AAA";
+
+	printf("%d\t",lcs(arr,brr));
+	return 0;
 }

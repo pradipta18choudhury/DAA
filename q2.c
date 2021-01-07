@@ -1,85 +1,110 @@
+/******
+Write a C Program that reads a dimension set of matrices as input and
+computes minimum number of multiplication required to find the product
+of the matrices using Dynamic Programming. The program must display
+the following outputs. 
+a. Display the content of cost matrix (m-matrix)
+b. Display the content of position matrix (s-matrix)
+c. Display the optimal parenthesization to find matrix product
+*****/
 
-/*****
+#include <stdio.h>
+#include<limits.h>
+#define INFY 999999999
+long int m[20][20];
+int s[20][20];
+int p[20],i,j,n;
 
-Write a C Program for representing a given directed graph using adjacency
-list representation. You are required to provide the following information
-as output.
- a. Display the adjacency list as output.
- b. Display the out-degree of each vertex and total out-degree as output.
-c. Display the in-degree of each vertex and total in-degree as output.
-******/
-
-#include<stdio.h>
-#include<stdlib.h>
-struct node
+void print_optimal(int i,int j)
 {
- int name;
- struct node *adj;
-};
-
-int main()
-{
-  struct node *adjarr[7];
-  int i,inDegree[3]={0},outDegree[3]={0};
-  char ch;
-  for(i=1;i<4;i++)
-  {
-   printf("Enter the adjacent vertex of vertex %d:\n",i);
-   struct node *new=(struct node *)malloc(sizeof(struct node));
-   scanf("%d",&new->name);
-   new->adj=NULL;
-   adjarr[i]=new;
-   printf("Do you want to continue(y/n):");
-   scanf("\n%c",&ch);
-   while(ch=='y')
+if (i == j)
+printf(" A%d ",i);
+else
    {
-    struct node *new1=(struct node *)malloc(sizeof(struct node));
-    scanf("%d",&new1->name);
-    new->adj=new1;
-    new=new1;
-    printf("Do you want to continue(y/n):");
-    scanf("\n%c",&ch);
+      printf("( ");
+      print_optimal(i, s[i][j]);
+      print_optimal(s[i][j] + 1, j);
+      printf(" )");
    }
-  }
-  //In Degree Calculation
-  struct node *temp1;
-  for(i=1;i<4;i++)
-  {
-  	temp1=adjarr[i];
-  	inDegree[(temp1->name)-1]++;
-  	while(temp1->adj!=NULL)
-  	{
-  		temp1=temp1->adj;
-  		inDegree[(temp1->name)-1]++;
-	}
-  }
-  //Out Degree Calculation
-  struct node *temp2;
-  for(i=1;i<4;i++)
-  {
-  	printf("%d",i);
-  	temp2=adjarr[i];
-  	outDegree[i-1]++;
-  	while(temp2->adj!=NULL)
-  	{
-  		temp2=temp2->adj;
-  		outDegree[i-1]++;
-	}
-  }
-  //Printing all
-  struct node *temp;
-  for(i=1;i<4;i++)
-  {
-  	printf("%d",i);
-  	temp=adjarr[i];
-  	printf("-->%d",temp->name);
-  	while(temp->adj!=NULL)
-  	{
-  		temp=temp->adj;
-  		printf("-->%d",temp->name);
-	}
-	printf(" In Degree = %d, Out Degree = %d",inDegree[i-1],outDegree[i-1]);
-	printf("\n");
-  }
-  return 0;
+}
+
+void matmultiply(void)
+{
+long int q;
+int k;
+for(i=n;i>0;i--)
+ {
+   for(j=i;j<=n;j++)
+    {
+     if(i==j)
+       m[i][j]=0;
+     else
+       {
+        for(k=i;k<j;k++)
+        {
+         q=m[i][k]+m[k+1][j]+p[i-1]*p[k]*p[j];
+         if(q<m[i][j])
+          {
+            m[i][j]=q;
+            s[i][j]=k;
+          }
+         }
+        }
+      }
+ }
+}
+
+int MatrixChainOrder(int p[], int i, int j)
+{
+    if(i == j)
+        return 0;
+    int k;
+    int min = INT_MAX;
+    int count;
+ 
+    for (k = i; k <j; k++)
+    {
+        count = MatrixChainOrder(p, i, k) +
+                MatrixChainOrder(p, k+1, j) +
+                p[i-1]*p[k]*p[j];
+ 
+        if (count < min)
+            min = count;
+    }
+ 
+    // Return minimum count
+    return min;
+}
+
+void main()
+{
+int k;
+printf("Enter the no. of elements: ");
+scanf("%d",&n);
+for(i=1;i<=n;i++)
+for(j=i+1;j<=n;j++)
+{
+ m[i][i]=0;
+ m[i][j]=INFY;
+ s[i][j]=0;
+}
+printf("\nEnter the dimensions: \n");
+for(k=0;k<=n;k++)
+{
+ printf("P%d: ",k);
+ scanf("%d",&p[k]);
+}
+matmultiply();
+printf("\nCost Matrix M:\n");
+for(i=1;i<=n;i++)
+ for(j=i;j<=n;j++)
+  printf("m[%d][%d]: %ld\n",i,j,m[i][j]);
+
+
+i=1,j=n;
+printf("\nMultiplication Sequence : ");
+print_optimal(i,j);
+printf("\nMinimum number of multiplications is : %d ",
+                          MatrixChainOrder(p, 1, n));
+
 }
